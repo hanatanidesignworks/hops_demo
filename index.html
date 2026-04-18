@@ -53,6 +53,11 @@
         <section>
             <div class="firstview">
                 <div class="fv-overlay">
+                    <!-- 入会特典リボン -->
+                    <div class="fv-ribbon">
+                        <span class="fv-ribbon-label">🎁 入会特典</span>
+                        <span class="fv-ribbon-text">HPからのお問い合わせで入会金 <s>7,700円</s> → <strong>5,500円</strong></span>
+                    </div>
                     <!-- ナビゲーション -->
                     <nav class="fv-nav">
                         <img src="img/new_logo.png" alt="HOPS" class="fv-logo">
@@ -141,35 +146,47 @@
             </div>
 
             <!--入力フォーム-->
-            <section id="form" class="formFrame">
-                <div class="form_title frame">
-                    <p class="athletic_experience">アスレチック体験１回<br>1,500円（50分）</p>
-                    <h2>体験を予約する</h2>
-                    <p>▼下記の入力フォームにお名前とメールアドレスを入力して、体験をご予約ください。</p>
-                    <p>迷惑メールとして返信が届く場合がありますので、解除していただくようお願い致します。</p>
-                    <p>確認のため電話番号を載せてくださると有難いです。<p>
+            <section id="form" class="card-form-section">
+                <div class="card-form-wrapper">
+                    <!-- 左：説明エリア -->
+                    <div class="card-form-info">
+                        <span class="card-form-badge">体験レッスン</span>
+                        <h2 class="card-form-title">まずは体験から<br>始めてみませんか？</h2>
+                        <p class="card-form-desc">お子様のペースに合わせて、楽しく体を動かす体験レッスンをご用意しています。</p>
+                        <div class="card-form-price">
+                            <span class="card-form-price-label">アスレチック体験 1回</span>
+                            <span class="card-form-price-num">1,500<small>円</small></span>
+                            <span class="card-form-price-sub">（50分）</span>
+                        </div>
+                        <ul class="card-form-notes">
+                            <li>📩 24時間以内に担当よりご連絡します</li>
+                            <li>📵 迷惑メールフィルターの解除をお願いします</li>
+                            <li>📞 電話番号を記入いただけると助かります</li>
+                        </ul>
+                    </div>
+                    <!-- 右：フォームエリア -->
+                    <div class="card-form-box">
+                        <h3 class="card-form-heading">体験を予約する</h3>
+                        <form action="sendmail.php" method="post" id="myForm" class="card-form">
+                            <div class="card-form-field">
+                                <label for="username">お名前 <span class="card-form-required">必須</span></label>
+                                <input type="text" id="username" name="username" maxlength="10" placeholder="山田太郎" autocomplete="off" required>
+                                <p id="nameerror" class="card-form-error"></p>
+                            </div>
+                            <div class="card-form-field">
+                                <label for="email">メールアドレス <span class="card-form-required">必須</span></label>
+                                <input type="text" id="email" name="email" placeholder="sample@sample.com" autocomplete="off" required>
+                                <p id="emailerror" class="card-form-error"></p>
+                            </div>
+                            <div class="card-form-field">
+                                <label for="coments">コメント</label>
+                                <textarea id="coments" name="coments" rows="4" maxlength="200" placeholder="ご質問・ご要望など（最大200文字）"></textarea>
+                            </div>
+                            <input type="submit" id="submit" class="card-form-submit" value="予約を申し込む" disabled>
+                        </form>
+                    </div>
                 </div>
-                
-                <div class="form_main">
-                    <form action="sendmail.php" method="post" class="form" id="myForm">
-                    
-                        <label for="username" class="usernamelabel">Username:</label>
-                        <input type="text" id="username" name="username" class="username" maxlength="10" placeholder="山田太郎" autocomplete="off" required>
-
-                        <label for="email" class="emaillabel">Email:</label>
-                        <input type="text" id="email" class="email" name="email" placeholder="sample@sample.com" autocomplete="off" required>
-                        
-                        <label for="coments" class="comentslabel">コメント：</label>
-                        <textarea id="coments" class="coments" name="coments" rows="4" cols="20" maxlength="200" placeholder="コメント（最大200文字まで）"></textarea><br><br>
-                        
-                        <input type="submit" id="submit" class="submit" value="Submit" disabled>
-                    
-                    </form>
-                    <p id="nameerror"></p>
-                    <p id="emailerror"></p>
-                </div>
-                <p class="frame">24時間以内に担当からご連絡差し上げます。</p>
-        </section>
+            </section>
 
         <!--特徴-->
         <div class="feature" id="feature">
@@ -564,6 +581,13 @@
             </div>
         </section>
 
+        <!-- スティッキー入会特典バー -->
+        <div class="sticky-bar" id="stickyBar">
+            <span class="sticky-bar-label">🎁 入会特典</span>
+            <span class="sticky-bar-text">HPからのお問い合わせで入会金 <s>7,700円</s> → <strong>5,500円</strong></span>
+            <a href="#form" class="sticky-bar-btn">今すぐ予約</a>
+        </div>
+
         <footer>
             <div class="footer">
                 <p>Copyright @体操教室HOPS All Rights Reserved</p>
@@ -647,6 +671,19 @@
                 inputElement.value = "";
                 mailInputElement.value = "";
             };
+
+            // スティッキーバー：ファーストビューを過ぎたら表示
+            const stickyBar = document.getElementById("stickyBar");
+            const firstview = document.querySelector(".firstview");
+
+            window.addEventListener("scroll", function() {
+                const fvBottom = firstview.getBoundingClientRect().bottom;
+                if (fvBottom < 0) {
+                    stickyBar.classList.add("is-visible");
+                } else {
+                    stickyBar.classList.remove("is-visible");
+                }
+            });
 
         </script>
     </body>
