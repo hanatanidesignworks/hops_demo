@@ -1950,6 +1950,12 @@ label{
     50%       { transform: translateY(-4px); }
 }
 
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 130px;
+    }
+}
+
 /* スティッキー入会特典バー */
 .sticky-bar {
     position: fixed;
