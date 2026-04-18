@@ -581,6 +581,12 @@
             </div>
         </section>
 
+        <!-- 上に戻るボタン -->
+        <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+            <span class="back-to-top-arrow">↑</span>
+            <span class="back-to-top-label">TOP</span>
+        </button>
+
         <!-- スティッキー入会特典バー -->
         <div class="sticky-bar" id="stickyBar">
             <span class="sticky-bar-label">🎁 入会特典</span>
@@ -671,6 +677,16 @@
                 inputElement.value = "";
                 mailInputElement.value = "";
             };
+
+            // 上に戻るボタン：300px以上スクロールで表示
+            const backToTop = document.getElementById("backToTop");
+            window.addEventListener("scroll", function() {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add("is-visible");
+                } else {
+                    backToTop.classList.remove("is-visible");
+                }
+            });
 
             // スティッキーバー：ファーストビューを過ぎたら表示
             const stickyBar = document.getElementById("stickyBar");
